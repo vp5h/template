@@ -3,21 +3,21 @@
  */
 const path = require('path');
 const webpack = require('webpack');
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const colors = require('../../app/themes/colors');
 
-const dotEnvFile = process.env.ENVIRONMENT_NAME === 'production' ? `.env` : `.env.${process.env.ENVIRONMENT_NAME}`;
-const env = dotenv.config({ path: dotEnvFile }).parsed;
-const envKeys = {
-  ...Object.keys(process.env).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(process.env[next]);
-    return prev;
-  }, {}),
-  ...Object.keys(env).reduce((prev, next) => {
-    prev[`process.env.${next}`] = JSON.stringify(env[next]);
-    return prev;
-  }, {})
-};
+// const dotEnvFile = process.env.ENVIRONMENT_NAME === 'production' ? `.env` : `.env.${process.env.ENVIRONMENT_NAME}`;
+// const env = dotenv.config({ path: dotEnvFile }).parsed;
+// const envKeys = {
+//   ...Object.keys(process.env).reduce((prev, next) => {
+//     prev[`process.env.${next}`] = JSON.stringify(process.env[next]);
+//     return prev;
+//   }, {})
+// ...Object.keys(env).reduce((prev, next) => {
+//   prev[`process.env.${next}`] = JSON.stringify(env[next]);
+//   return prev;
+// }, {})
+// };
 
 module.exports = (options) => ({
   mode: options.mode,
@@ -154,7 +154,9 @@ module.exports = (options) => ({
     new webpack.EnvironmentPlugin({
       NODE_ENV: 'development'
     }),
-    new webpack.DefinePlugin(envKeys)
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(process.env)
+    })
   ]),
   resolve: {
     modules: ['node_modules', 'app'],
