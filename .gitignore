@@ -14,3 +14,4 @@ storybook-static
 npm-debug.log
 .idea
 
+reports/test-report.xml
